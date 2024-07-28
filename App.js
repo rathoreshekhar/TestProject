@@ -6,19 +6,19 @@
  * @flow strict-local
  */
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useEffect, useState} from 'react';
-import {Appearance, Button, Text, View} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { Appearance } from 'react-native';
 
-import {Provider} from 'react-redux';
-import {getData, storeData} from './config/asyncStorage';
-import {ThemeContext} from './context/ThemeContext';
+import { Provider } from 'react-redux';
+import { getData, storeData } from './config/asyncStorage';
+import { ThemeContext } from './context/ThemeContext';
 import BottomTabNavigator from './screens/BottomTabNavigator';
+import FollowStars from './screens/FollowStars';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import configureStore from './store';
-import FollowStars from './screens/FollowStars';
+import store from './store';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,8 +56,8 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{theme, updateTheme}}>
-      {/* <Provider store={configureStore}> */}
+    <Provider store={store}>
+      <ThemeContext.Provider value={{theme, updateTheme}}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen
@@ -82,8 +82,8 @@ const App = () => {
             />
           </Stack.Navigator>
         </NavigationContainer>
-      {/* </Provider> */}
-    </ThemeContext.Provider>
+      </ThemeContext.Provider>
+    </Provider>
   );
 };
 

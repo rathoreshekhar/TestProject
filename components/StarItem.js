@@ -1,17 +1,40 @@
-import {useContext} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { useContext } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {ThemeContext} from '../context/ThemeContext';
-import {colors} from '../config/theme';
+import { colors } from '../config/theme';
+import { ThemeContext } from '../context/ThemeContext';
 
-export default StarItem = ({name, image, isSelected, onPress}) => {
+export default StarItem = ({name, image, platform, isSelected, onPress}) => {
   const {theme} = useContext(ThemeContext);
   let activeColors = colors[theme.mode];
+
+  const getIcon = () => {
+    switch (platform) {
+      case 'LinkedIn':
+        return 'logo-linkedin';
+      case 'Instagram':
+        return 'logo-instagram';
+      case 'Facebook':
+        return 'logo-facebook';
+      default:
+        return 'help-circle';
+    }
+  };
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={{margin: 10}}
       onPress={onPress}>
+      <View
+        style={{
+          top: 0,
+          left: 0,
+          position: 'absolute',
+          justifyContent: 'center',
+          zIndex: 100,
+        }}>
+        <Ionicons name={getIcon()} size={24} color={activeColors.tint} />
+      </View>
       <Image
         style={styles.avatar}
         source={{

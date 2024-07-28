@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Appearance,
   ScrollView,
@@ -8,27 +8,41 @@ import {
   View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from 'react-redux';
 import SettingsItem from '../components/SettingsItem';
 import StyledText from '../components/StyledText';
-import {colors} from '../config/theme';
-import {ThemeContext} from '../context/ThemeContext';
+import { colors } from '../config/theme';
+import { ThemeContext } from '../context/ThemeContext';
 import data from '../data/data.json';
+import { addEnabledPlatform, resetState } from '../reducers/UserReducer';
 
 export default SettingsScreen = ({navigation}) => {
   const {theme, updateTheme} = useContext(ThemeContext);
   let activeColors = colors[theme.mode];
   const [isDarkTheme, setIsDarkTheme] = useState(theme.mode === 'dark');
   const [socialPlatforms, setSocialPlatforms] = useState(data.socialPlatforms);
+  const userData = useSelector(state => state.userReducer);
+  const [enabledPlatforms, setEnabledPlatforms] = useState(
+    userData.enabledPlatforms,
+  );
+  const dispatch = useDispatch();
 
   const toggleTheme = () => {
     updateTheme();
     setIsDarkTheme(prev => !prev);
   };
 
-  const toggleSocial = (index) => {
-      const updatedData = [...socialPlatforms];
-      updatedData[index].isActive = !updatedData[index].isActive;
-      setSocialPlatforms(updatedData);
+  const toggleSocial = name => {
+    let updatedData = [...enabledPlatforms];
+    if (enabledPlatforms.includes(name)) {
+      updatedData = updatedData.filter(
+        enabledPlatform => enabledPlatform !== name,
+      );
+    } else {
+      updatedData.push(name);
+    }
+    setEnabledPlatforms(updatedData);
+    dispatch(addEnabledPlatform(updatedData));
   };
 
   useEffect(() => {
@@ -36,6 +50,10 @@ export default SettingsScreen = ({navigation}) => {
       colorScheme === 'dark' ? setIsDarkTheme(true) : setIsDarkTheme(false);
     });
   }, []);
+
+  useEffect(() => {
+    console.log('userData', userData);
+  }, [enabledPlatforms]);
 
   return (
     <ScrollView
@@ -51,7 +69,7 @@ export default SettingsScreen = ({navigation}) => {
 
       <View style={styles.section}>
         <SettingsItem label="Name">
-          <StyledText>Maro</StyledText>
+          <StyledText>Shekhar Rathore</StyledText>
         </SettingsItem>
       </View>
 
@@ -79,10 +97,10 @@ export default SettingsScreen = ({navigation}) => {
       <View style={styles.section}>
         {socialPlatforms.map((item, index) => (
           <View key={index}>
-            <SettingsItem label={item.name}>
+            <SettingsItem label={item}>
               <Switch
-                value={item.isActive}
-                onValueChange={()=>toggleSocial(index)}
+                value={enabledPlatforms.includes(item)}
+                onValueChange={() => toggleSocial(item)}
                 thumbColor={isDarkTheme ? '#fff' : activeColors.tertiary}
                 ios_backgroundColor={activeColors.primary}
                 trackColor={{
@@ -94,7 +112,11 @@ export default SettingsScreen = ({navigation}) => {
         ))}
       </View>
       <View style={styles.logout}>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(resetState());
+            navigation.navigate('Login');
+          }}>
           <SettingsItem>
             <Ionicons name="log-out-outline" size={24} color="red" />
             <StyledText style={{color: 'red'}}> Logout</StyledText>

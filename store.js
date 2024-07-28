@@ -1,10 +1,14 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { thunk } from 'redux-thunk';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import userReducer from './reducers/UserReducer';
 
-const rootReducer = combineReducers({});
-const middlewares = [thunk];
-const enhancers = [applyMiddleware(...middlewares)];
-const configureStore = () => {
-  return createStore(rootReducer, compose(...enhancers));
-};
-export default configureStore;
+const rootReducer = combineReducers({
+  userReducer,
+});
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+export default store;

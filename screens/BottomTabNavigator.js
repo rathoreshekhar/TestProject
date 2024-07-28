@@ -1,10 +1,11 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useContext} from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useContext } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {colors} from '../config/theme';
-import {ThemeContext} from '../context/ThemeContext';
-import SettingsScreen from './Settings';
+import { colors } from '../config/theme';
+import { ThemeContext } from '../context/ThemeContext';
+import FollowStars from './FollowStars';
 import HomeScreen from './HomeScreen';
+import SettingsScreen from './Settings';
 
 const Tab = createBottomTabNavigator();
 export default function BottomTabNavigator() {
@@ -26,6 +27,9 @@ export default function BottomTabNavigator() {
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
             return <Ionicons name={iconName} size={24} color={color} />;
+          } else if (route.name === 'Follow') {
+            iconName = focused ? 'star' : 'star-outline';
+            return <Ionicons name={iconName} size={24} color={color} />;
           }
           return <Ionicons name={iconName} size={24} color={color} />;
         },
@@ -34,9 +38,7 @@ export default function BottomTabNavigator() {
         tabBarStyle: {
           backgroundColor: activeColors.secondary,
         },
-        headerTitleAlign: 'left',
         headerTitleStyle: {
-          paddingLeft: 10,
           fontSize: 24,
         },
         headerStyle: {
@@ -44,8 +46,44 @@ export default function BottomTabNavigator() {
         },
         headerTintColor: activeColors.tint,
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="Home"
+        options={() => {
+          return {
+            headerTitle: 'Posts',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 24,
+            },
+          };
+        }}
+        component={HomeScreen}
+      />
+      <Tab.Screen
+        name="Follow"
+        options={() => {
+          return {
+            headerTitle: 'Follow Stars',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 24,
+            },
+          };
+        }}
+        component={FollowStars}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={() => {
+          return {
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 24,
+            },
+          };
+        }}
+      />
     </Tab.Navigator>
   );
 }
