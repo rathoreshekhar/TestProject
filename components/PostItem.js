@@ -128,6 +128,7 @@ export default PostItem = ({item}) => {
       <View style={styles.contentContainer}>
         <Text style={styles.paragraph}>{item.content}</Text>
         <Image
+          testID="post-image"
           source={{
             uri: item.image,
           }}

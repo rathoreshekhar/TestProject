@@ -43,6 +43,7 @@ const RegisterScreen = ({navigation}) => {
         </Text>
 
         <InputField
+          testID="username-input"
           label={'Full Name'}
           icon={
             <Ionicons

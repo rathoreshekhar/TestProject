@@ -22,6 +22,7 @@ export default StarItem = ({name, image, platform, isSelected, onPress}) => {
   };
   return (
     <TouchableOpacity
+      testID="star-item"
       activeOpacity={0.9}
       style={{margin: 10}}
       onPress={onPress}>
@@ -36,6 +37,7 @@ export default StarItem = ({name, image, platform, isSelected, onPress}) => {
         <Ionicons name={getIcon()} size={24} color={activeColors.tint} />
       </View>
       <Image
+        testID="star-item-image"
         style={styles.avatar}
         source={{
           uri: image,

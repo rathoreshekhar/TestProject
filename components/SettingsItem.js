@@ -9,6 +9,7 @@ const SettingsItem = ({children, label}) => {
   let activeColors = colors[theme.mode];
   return (
     <View
+      testID="settings-item"
       style={[
         {
           backgroundColor: activeColors.secondary,

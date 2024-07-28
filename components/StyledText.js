@@ -8,6 +8,7 @@ const StyledText = ({children, small, big, style, bold, ...props}) => {
   let activeColors = colors[theme.mode];
   return (
     <Text
+      testID="styled-text"
       style={[
         {
           color: activeColors.accent,

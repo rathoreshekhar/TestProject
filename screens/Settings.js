@@ -80,6 +80,7 @@ export default SettingsScreen = ({navigation}) => {
       <View style={styles.section}>
         <SettingsItem label="Dark Mode">
           <Switch
+            testID="theme-switch"
             value={isDarkTheme}
             onValueChange={toggleTheme}
             thumbColor={isDarkTheme ? '#fff' : activeColors.tertiary}
@@ -97,7 +98,7 @@ export default SettingsScreen = ({navigation}) => {
       <View style={styles.section}>
         {socialPlatforms.map((item, index) => (
           <View key={index}>
-            <SettingsItem label={item}>
+            <SettingsItem testID="settings-item" label={item}>
               <Switch
                 value={enabledPlatforms.includes(item)}
                 onValueChange={() => toggleSocial(item)}
@@ -113,6 +114,7 @@ export default SettingsScreen = ({navigation}) => {
       </View>
       <View style={styles.logout}>
         <TouchableOpacity
+          testID="logout-button"
           onPress={() => {
             dispatch(resetState());
             navigation.navigate('Login');

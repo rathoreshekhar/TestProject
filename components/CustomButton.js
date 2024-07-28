@@ -9,6 +9,7 @@ export default function CustomButton({label, disabled, onPress}) {
 
   return (
     <TouchableOpacity
+      testID="custom-button"
       onPress={onPress}
       disabled={disabled}
       style={{

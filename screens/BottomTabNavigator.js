@@ -47,6 +47,7 @@ export default function BottomTabNavigator() {
         headerTintColor: activeColors.tint,
       })}>
       <Tab.Screen
+        testID="tab-1"
         name="Home"
         options={() => {
           return {
@@ -60,6 +61,7 @@ export default function BottomTabNavigator() {
         component={HomeScreen}
       />
       <Tab.Screen
+        testID="tab-0"
         name="Follow"
         options={() => {
           return {
@@ -73,6 +75,7 @@ export default function BottomTabNavigator() {
         component={FollowStars}
       />
       <Tab.Screen
+        testID="tab-2"
         name="Settings"
         component={SettingsScreen}
         options={() => {
